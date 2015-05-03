@@ -4,42 +4,50 @@ var model = [
   {
     "name": "My House",
     "lat": 40.925594,
-    "lng": -73.033634
+    "lng": -73.033634,
+    "about": "Home Sweet Home!"
   },
   {
     "name": "My Boyfriend's House",
     "lat": 40.940590, 
-    "lng": -73.040945
+    "lng": -73.040945,
+    "about": "Home of the Great Jon Boswell! OK - so I only WISH he was my boyfriend."
   },
   {
     "name": "Cedar Beach",
     "lat": 40.964386, 
-    "lng": -73.034274
+    "lng": -73.034274,
+    "about": "A Taste of the North Shore"
   },
   {
     "name": "Rocco's Pizza",
     "lat": 40.931291, 
-    "lng": -73.031276
+    "lng": -73.031276,
+    "about": "Yum Yum Yum in my Tum Tum Tum"
   },
   {
     "name": "Port Jefferson & Bridgeport Ferry",
     "lat": 40.947791,
-    "lng": -73.070830
+    "lng": -73.070830,
+    "about": "From Long Island to Connecticut"
   },
   {
     "name": "Stony Brook University",
     "lat": 40.912364,
-    "lng": -73.123378
+    "lng": -73.123378,
+    "about": "SUNY Stony Brook - a Premier Medical School and Hospital"
   },
   {
     "name": "Clinton Avenue Elementary",
     "lat": 40.905240,
-    "lng": -73.040907
+    "lng": -73.040907,
+    "about": "Brianna's School"
   },
   {
     "name": "Heritage Park",
     "lat": 40.935747,
-    "lng": -73.011568
+    "lng": -73.011568,
+    "about": "For a beautiful walk or to play on the playground"
   }
 ];
 
@@ -60,20 +68,32 @@ function AppViewModel() {
       }
       );
 
-  var markers = [];
   self.initMarkers = function(data) {
 
     for ( var i = 0; i < data.length; i++ ) {
 
       var latLng = new google.maps.LatLng( data[i].lat, data[i].lng );
+      var about = data[i].about;
+      
       var marker = new google.maps.Marker({
           position: latLng,
           map: self.map,
           title: data[i].name
-      });     
+      });
+
+      var infowindow = new google.maps.InfoWindow();
+      
+      google.maps.event.addListener(marker, 'click', function() {
+        
+        infowindow.setContent(about);
+        infowindow.open(self.map,marker);
+      });
+
     }
-  }
+};  
+
   self.initMarkers(this.placeList());
+  
 }
 
 
