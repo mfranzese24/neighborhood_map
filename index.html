@@ -1,16 +1,28 @@
 <!DOCTYPE html>
 <html>
-	  <head>
+	<head>
 	  	<meta charset="UTF-8">
 	  	<link href="css/style.css" rel="stylesheet" type="text/css"></link>
 	  	<title>Port Jefferson, NY</title>
-   
-    <style type="text/css"> html, body, #map-canvas { height: 100%; margin: 0; padding: 0;} </style>
+  	</head>
+  	<body>
+
+  		<h2 id="greeting" class="greeting">Welcome to Port Jefferson, NY</h2>
+
+		<div id="map-canvas"></div>
+
+		<div id="list-view">
+			<form id="search" class="search-container">
+  				<input type="text" id="search" value="">
+  				<button id="search-btn">Search</button>
+  			</form>
+			<h3 id="list-view-header">Places</h3>
+			<ul id="list" class="places-list">
+		</div>
+
+	<style type="text/css"> html, body, #map-canvas { height: 100%; margin: 0; padding: 0;} </style>
   	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
     <script type="text/javascript" src="js/knockout.js"></script>
     <script type="text/javascript" src="js/script.js"></script>
-  </head>
-  <body>
-<div id="map-canvas"></div>
-  </body>
+ 	</body>
 </html>
