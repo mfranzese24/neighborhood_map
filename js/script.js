@@ -68,6 +68,7 @@ function AppViewModel() {
       }
       );
 
+  var markers = []
   self.initMarkers = function(data) {
 
     for ( var i = 0; i < data.length; i++ ) {
@@ -98,4 +99,3 @@ function AppViewModel() {
 
 
 ko.applyBindings(new AppViewModel());
-
