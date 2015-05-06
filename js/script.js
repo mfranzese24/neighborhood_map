@@ -72,6 +72,10 @@ function AppViewModel() {
   self.initMarkers = function(data) {
 
     for ( var i = 0; i < data.length; i++ ) {
+      createMarker(i);
+    }
+
+    function createMarker(i) {
 
       var latLng = new google.maps.LatLng( data[i].lat, data[i].lng );
       var about = data[i].about;
@@ -79,14 +83,15 @@ function AppViewModel() {
       var marker = new google.maps.Marker({
           position: latLng,
           map: self.map,
-          title: data[i].name
+          title: data[i].name,
+          content: about
       });
 
       var infowindow = new google.maps.InfoWindow();
       
       google.maps.event.addListener(marker, 'click', function() {
         
-        infowindow.setContent(about);
+        infowindow.setContent(this.content);
         infowindow.open(self.map,marker);
       });
 
