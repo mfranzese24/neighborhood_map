@@ -58,9 +58,10 @@ function AppViewModel() {
 
   var self = this;
 
-  
+  //creates an array of model objects  
   self.placeList = ko.observableArray(model);
 
+  //create map, starting point Port Jefferson NY
   self.map = new google.maps.Map(document.getElementById('map-canvas'),
       {
         center: {lat: 40.94, lng: -73.06},
@@ -68,6 +69,7 @@ function AppViewModel() {
       }
       );
 
+  //iterates through each location to create markers
   var markers = []
   self.initMarkers = function(data) {
 
@@ -80,8 +82,11 @@ function AppViewModel() {
       var latLng = new google.maps.LatLng( data[i].lat, data[i].lng );
       var about = data[i].about;
       
+
+      //set content for infowindow
       var contentString = '<div id="title">' + data[i].name + '<div id ="about">' + data[i].about + '</div>' + '</div>' + '<div id="content" style="width:400px;height:250px;"></div>';
 
+      //create markers
       var marker = new google.maps.Marker({
           position: latLng,
           map: self.map,
@@ -89,17 +94,20 @@ function AppViewModel() {
           content: contentString
       });
 
-
+      //create infowindows
       var infowindow = new google.maps.InfoWindow({
         position: latLng,
         content: contentString
       });
       
+      //function when clicking markers
       google.maps.event.addListener(marker, 'click', function() {
         
         infowindow.setContent(this.content);
         infowindow.open(self.map,marker);
 
+        
+        //add google streetview to the infowindow
         var pano = null;
         google.maps.event.addListener(infowindow, 'domready', function () {
           if (pano != null) {
@@ -132,6 +140,7 @@ function AppViewModel() {
 
 };  
 
+  //run function to create markers & associated behaviors
   self.initMarkers(this.placeList());
   
 }
