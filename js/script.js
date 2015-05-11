@@ -80,22 +80,56 @@ function AppViewModel() {
       var latLng = new google.maps.LatLng( data[i].lat, data[i].lng );
       var about = data[i].about;
       
+      var contentString = '<div id="title">' + data[i].name + '<div id ="about">' + data[i].about + '</div>' + '</div>' + '<div id="content" style="width:400px;height:250px;"></div>';
+
       var marker = new google.maps.Marker({
           position: latLng,
           map: self.map,
           title: data[i].name,
-          content: about
+          content: contentString
       });
 
-      var infowindow = new google.maps.InfoWindow();
+
+      var infowindow = new google.maps.InfoWindow({
+        position: latLng,
+        content: contentString
+      });
       
       google.maps.event.addListener(marker, 'click', function() {
         
         infowindow.setContent(this.content);
         infowindow.open(self.map,marker);
+
+        var pano = null;
+        google.maps.event.addListener(infowindow, 'domready', function () {
+          if (pano != null) {
+            pano.unbind("position");
+            pano.setVisible(false);
+          }
+          pano = new google.maps.StreetViewPanorama(document.getElementById("content"), {
+            navigationControl: true,
+            navigationControlOptions: {style: google.maps.NavigationControlStyle.ANDROID },
+            enableCloseButton: false,
+            addressControl: false,
+            linksControl: false
+          });
+          pano.bindTo("position", marker);
+          pano.setVisible(true);
+        });
+
+        google.maps.event.addListener(infowindow, 'closeclick', function () {
+          pano.unbind("position");
+          pano.setVisible(false);
+          pano = null;
+        });
       });
 
+
+
+
     }
+
+
 };  
 
   self.initMarkers(this.placeList());

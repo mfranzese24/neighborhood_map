@@ -3,3 +3,8 @@ https://developers.google.com/maps/documentation/javascript/tutorial
 http://knockoutjs.com/documentation/observableArrays.html
 
 http://learn.knockoutjs.com/#/?tutorial=collections
+
+
+http://stackoverflow.com/questions/5736691/google-maps-infowindow-showing-on-wrong-marker
+
+http://stackoverflow.com/questions/13588293/streetview-into-infowindow
