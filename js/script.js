@@ -5,48 +5,56 @@ var model = [
     "name": "My House",
     "lat": 40.925594,
     "lng": -73.033634,
+    "address": "Franzese Family, 1 Willoughby Street, Port Jefferson Station, NY",
     "about": "Home Sweet Home!"
   },
   {
     "name": "My Boyfriend's House",
     "lat": 40.940590, 
     "lng": -73.040945,
+    "address": "Boswell Family, 5 Hill Drive, Port Jefferson, NY",
     "about": "Home of the Great Jon Boswell! OK - so I only WISH he was my boyfriend."
   },
   {
     "name": "Cedar Beach",
     "lat": 40.964386, 
     "lng": -73.034274,
+    "address": "Cedar Beach, Harbor Beach Road, Miller Place, NY",
     "about": "A Taste of the North Shore"
   },
   {
     "name": "Rocco's Pizza",
     "lat": 40.931291, 
     "lng": -73.031276,
+    "address": "Rocco's Pizza, 5507 Rte 347, Mt. Sinai, NY",
     "about": "Yum Yum Yum in my Tum Tum Tum"
   },
   {
     "name": "Port Jefferson & Bridgeport Ferry",
     "lat": 40.947791,
     "lng": -73.070830,
+    "address": "Port Jefferson Ferry, 102 W Broadway, Port Jefferson, NY",
     "about": "From Long Island to Connecticut"
   },
   {
-    "name": "Stony Brook University",
-    "lat": 40.912364,
-    "lng": -73.123378,
+    "name": "Stony Brook University Hospital",
+    "lat": 40.910223,
+    "lng": -73.115196,
+    "address": "Stony Brook University Hospital, 101 Nicolls Road, Stony Brook, NY",
     "about": "SUNY Stony Brook - a Premier Medical School and Hospital"
   },
   {
     "name": "Clinton Avenue Elementary",
     "lat": 40.905240,
     "lng": -73.040907,
+    "address": "Clinton Avenue Elementary, 140 Clinton Ave, Port Jefferson Station, NY",
     "about": "Brianna's School"
   },
   {
     "name": "Heritage Park",
     "lat": 40.935747,
     "lng": -73.011568,
+    "address": "Heritage Park, 633 Mt. Sinai-Coram Rd, Mt. Sinai, NY",
     "about": "For a beautiful walk or to play on the playground"
   }
 ];
@@ -82,9 +90,32 @@ function AppViewModel() {
       var latLng = new google.maps.LatLng( data[i].lat, data[i].lng );
       var about = data[i].about;
       
+      //create wiki search url
+      var wiki = $('#wiki');
+      var wikiURL = 'http://en.wikipedia.org/w/api.php?action=opensearch&search=' + data[i].address + '&format=json&callback=wikiCallback';
+      var wikiRequestTimeout = setTimeout(function() {
+        wiki.text("Failed to Get Wikipedia Resources");
+        }, 8000);
+
+      $.ajax({
+        url: wikiURL,
+        dataType: "jsonp",
+        //jsonp: "callback",
+        success: function ( response ) {
+            var articleList = response[1];
+
+            for (var i = 0; i < articleList.length; i++) {
+                articleStr = articleList[i];
+                var url = 'http://en.wikipedia.org/wiki/' + articleStr;
+                $('wiki').append('<li><a href="' + url + '">' + articleStr + '</a></li>')
+            };
+
+            clearTimeout(wikiRequestTimeout);
+        }
+      });
 
       //set content for infowindow
-      var contentString = '<div id="title">' + data[i].name + '<div id ="about">' + data[i].about + '</div>' + '</div>' + '<div id="content" style="width:400px;height:250px;"></div>';
+      var contentString = '<div id="title">' + data[i].name + '<div id ="about">' + data[i].about + '</div>' + '</div>' + '<div id="content" style="width:400px;height:250px;"></div>' + '<div id="wiki">' + "wiki goes here" +'</div>';
 
       //create markers
       var marker = new google.maps.Marker({
