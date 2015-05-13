@@ -17,36 +17,36 @@ var model = [
   },
   {
     "name": "Cedar Beach",
-    "lat": 40.964386, 
-    "lng": -73.034274,
+    "lat": 40.964677, 
+    "lng": -73.027536,
     "search": "Cedar Beach, Miller Place, NY",
     "about": "A Taste of the North Shore"
   },
   {
     "name": "Rocco's Pizza",
-    "lat": 40.9308, 
+    "lat": 40.931772, 
     "lng": -73.033817,
     "search": "Rocco's Pizza, Mt. Sinai, NY",
     "about": "Yum Yum Yum in my Tum Tum Tum"
   },
   {
     "name": "Port Jefferson & Bridgeport Ferry",
-    "lat": 40.947791,
-    "lng": -73.070830,
+    "lat": 40.948180,
+    "lng": -73.070658,
     "search": "Port Jefferson Ferry, Port Jefferson, NY",
     "about": "From Long Island to Connecticut"
   },
   {
     "name": "Stony Brook University Hospital",
-    "lat": 40.910089,
-    "lng": -73.115173,
+    "lat": 40.910588,
+    "lng": -73.114766,
     "search": "Stony Brook University Hospital, Stony Brook, NY",
     "about": "SUNY Stony Brook - a Premier Medical School and Hospital"
   },
   {
     "name": "Clinton Avenue Elementary",
-    "lat": 40.905464,
-    "lng": -73.040926,
+    "lat": 40.905702,
+    "lng": -73.040853,
     "search": "Clinton Avenue Elementary, Port Jefferson Station, NY",
     "about": "Brianna's School"
   },
@@ -116,7 +116,7 @@ function AppViewModel() {
       });
 
       //set content for infowindow
-      var contentString = '<div class = "title"><h3>' + data[i].name + '</h3></div>' + '<div class = "about">' + data[i].about  + '</div><div id="content" style="width:400px;height:250px;"></div><div class="wikipedia-container" style="width: 400px; height: 250px;"><h3 id="wikipedia-header">Wikipedia Links</h3><ul id="wikipedia-links">Want to know about ' + data[i].name + '?</ul><div></div>';
+      var contentString = '<div class = "title"><h3>' + data[i].name + '</h3></div>' + '<div class = "about">' + data[i].about  + '</div><div id="content" style="width:400px;height:250px;"></div><div class="wikipedia-container" style="width: 400px; height: 250px;"><h3 id="wikipedia-header">Wikipedia Links</h3><ul id="wikipedia-links">Want to know about ' + data[i].name + '?</ul></div></div>';
 
       //create markers
       var marker = new google.maps.Marker({
