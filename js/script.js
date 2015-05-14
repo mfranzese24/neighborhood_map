@@ -126,6 +126,7 @@ function AppViewModel() {
           content: contentString
       });
 
+
       //create infowindows
       var infowindow = new google.maps.InfoWindow({
         position: latLng,
@@ -134,6 +135,21 @@ function AppViewModel() {
       
       //function when clicking markers
       google.maps.event.addListener(marker, 'click', function() {
+
+        function toggleBounce() {
+          if (marker.getAnimation() != null) {
+          marker.setAnimation(null);
+          }
+          else {
+          marker.setAnimation(google.maps.Animation.BOUNCE);
+            function timeout() {
+              marker.setAnimation(null);
+            }
+            setTimeout(timeout, 2000);
+          }
+        };
+
+        toggleBounce();
         
         infowindow.setContent(this.content);
         infowindow.open(self.map,marker);
