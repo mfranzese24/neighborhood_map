@@ -91,30 +91,7 @@ function AppViewModel() {
       var about = data[i].about;
       
       //create wiki search url
-      var $wikiElem = $('#wikipedia-links');
 
-      var wikiURL = 'http://en.wikipedia.org/w/api.php?action=opensearch&format=json&search=' + data[i].search + '&format=json';
-      var wikiRequestTimeout = setTimeout(function() {
-        $wikiElem.text("Failed to Get Wikipedia Resources");
-        }, 8000);
-
-      $.ajax({
-        url: wikiURL,
-        dataType: "jsonp",
-        cache: true,
-        //jsonp: "callback",
-        success: function ( response ) {
-            var articleList = response[1];
-
-            for (var i = 0; i < articleList.length; i++) {
-                articleStr = articleList[i];
-                var url = 'http://en.wikipedia.org/wiki/' + articleStr;
-                $wikiElem.append('<li><a href="' + url + '">' + articleStr + '</a></li>')
-            };
-
-            clearTimeout(wikiRequestTimeout);
-        }
-    });
 
       //set content for infowindow
       var contentString = '<div class = "title"><h3>' + data[i].name + '</h3></div>' + '<div class = "about">' + data[i].about  + '</div><div id="content" style="width:400px;height:250px;"></div><div class="wikipedia-container" style="width: 400px; height: 250px;"><h3 id="wikipedia-header">Wikipedia Links</h3><ul id="wikipedia-links"></ul></div></div>';
@@ -126,7 +103,6 @@ function AppViewModel() {
           title: data[i].name,
           content: contentString
       });
-
 
       //create infowindows
       var infowindow = new google.maps.InfoWindow({
@@ -154,6 +130,33 @@ function AppViewModel() {
         
         infowindow.setContent(this.content);
         infowindow.open(self.map,marker);
+
+        $(document).ready(function() {
+          var $wikiElem = $('#wikipedia-links');
+
+          var wikiURL = 'http://en.wikipedia.org/w/api.php?action=opensearch&format=json&search=' + data[i].search + '&format=json';
+          var wikiRequestTimeout = setTimeout(function() {
+            $wikiElem.text("Failed to Get Wikipedia Resources");
+            }, 8000);
+
+          $.ajax({
+            url: wikiURL,
+            dataType: "jsonp",
+            cache: true,
+            //jsonp: "callback",
+            success: function ( response ) {
+              var articleList = response[1];
+
+              for (var i = 0; i < articleList.length; i++) {
+                articleStr = articleList[i];
+                var url = 'http://en.wikipedia.org/wiki/' + articleStr;
+                $wikiElem.append('<li><a href="' + url + '">' + articleStr + '</a></li>')
+              };
+
+              clearTimeout(wikiRequestTimeout);
+            }
+          });
+        });
 
         
         //add google streetview to the infowindow

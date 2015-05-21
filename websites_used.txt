@@ -8,3 +8,5 @@ http://learn.knockoutjs.com/#/?tutorial=collections
 http://stackoverflow.com/questions/5736691/google-maps-infowindow-showing-on-wrong-marker
 
 http://stackoverflow.com/questions/13588293/streetview-into-infowindow
+
+http://learn.jquery.com/using-jquery-core/document-ready/
