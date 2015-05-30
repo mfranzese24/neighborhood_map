@@ -1,9 +1,7 @@
-a {
-	target-name: new;
-	target-new: tab;
-}
+
 
 #map-canvas {
 	width: 70%;
 	float: left;
 }
+
