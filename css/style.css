@@ -1,7 +1,25 @@
-
-
-#map-canvas {
-	width: 70%;
-	float: left;
+body {
+	font-family: 'Martel', serif;
+	background-color: #CF0000;
+	padding: 20px;
 }
 
+h1 {
+	font-family: 'Meddon', cursive;
+}
+
+#header {
+	margin: 10px;
+}
+
+#wrapper {
+	background-color: white;
+	border-radius: 10px;
+	border: double;
+	border-color: navy;
+}
+
+#map-canvas {
+	height: 600px;
+	margin-bottom: 30px;
+}
