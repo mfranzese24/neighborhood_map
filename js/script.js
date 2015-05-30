@@ -77,6 +77,8 @@ function AppViewModel() {
       }
       );
 
+
+
   //iterates through each location to create markers
   var markers = []
   self.initMarkers = function(data) {
@@ -90,7 +92,10 @@ function AppViewModel() {
       var latLng = new google.maps.LatLng( data[i].lat, data[i].lng );
       var about = data[i].about;
       
-      //create wiki search url
+      //create place list & append to ul
+      var places = data[i].name;
+
+      $('#list').append('<li>' + places + '</li>');
 
 
       //set content for infowindow
