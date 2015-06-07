@@ -80,19 +80,19 @@ function AppViewModel() {
   //iterates through each location to create markers
 
 
-  var markers = [];
+  var markers = ko.observableArray();
+
+
   self.initMarkers = function(data) {
 
     for ( var i = 0; i < data.length; i++ ) {
       createMarker(i);
-      markers.push(new google.maps.Marker(markers[i]));
     }
 
     function createMarker(i) {
 
       var latLng = new google.maps.LatLng( data[i].lat, data[i].lng );
       var about = data[i].about;
-
 
       //set content for infowindow
       var contentString = '<div class = "title"><h3>' + data[i].name + '</h3></div>' + '<div class = "about">' + data[i].about  + '</div><div id="content" style="width:400px;height:250px;"></div><div class="wikipedia-container" style="width: 400px; height: 250px;"><h3 id="wikipedia-header">Wikipedia Links</h3><ul id="wikipedia-links"></ul></div></div>';
@@ -105,16 +105,18 @@ function AppViewModel() {
           content: contentString
       });
 
+      markers.push(marker);
+
       //create list view for markers
       $(document).ready( function () {
         $('#list').append('<li>' + marker.title + '</li>');
-        $('#list li').click(function() {
-        $(this).siblings('li').css("fontWeight", "normal");
-        $(this).css("fontWeight", "bold");
+        $('#list li:last-of-type').click(function() {
+        $('#list li').siblings('li').css("fontWeight", "normal");
+        $('#list li').css("fontWeight", "bold");
         infowindow.open(self.map, marker);
         });
-
       });
+
 
       //create infowindows
       var infowindow = new google.maps.InfoWindow({
@@ -174,7 +176,6 @@ function AppViewModel() {
             }
           });
         });
-
         
         //add google streetview to the infowindow
         var pano = null;
