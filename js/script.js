@@ -111,12 +111,22 @@ function AppViewModel() {
       $(document).ready( function () {
         $('#list').append('<li>' + marker.title + '</li>');
         $('#list li:last-of-type').click(function() {
-        $('#list li').siblings('li').css("fontWeight", "normal");
-        $('#list li').css("fontWeight", "bold");
         infowindow.open(self.map, marker);
+
+        var listItem = $('#list li'); 
+
+        function markSelection() {
+          listItem.siblings('li').css("fontWeight", "normal");
+          listItem.css("fontWeight", "bold");
+        }
+
+        for (i = 0, len = listItem.length; i < len; i++){
+          listItem[i].onclick = markSelection;
+        };
+
+        markSelection();
         });
       });
-
 
       //create infowindows
       var infowindow = new google.maps.InfoWindow({
@@ -145,10 +155,6 @@ function AppViewModel() {
         
         infowindow.setContent(this.content);
         infowindow.open(self.map,marker);
-
-        $('#list li').siblings('li').css("fontWeight", "normal");
-        $('#list li').css("fontWeight", "bold");
-
 
         $(document).ready(function() {
           var $wikiElem = $('#wikipedia-links');
