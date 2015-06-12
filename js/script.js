@@ -113,15 +113,16 @@ function AppViewModel() {
         $('#list li:last-of-type').click(function() {
         infowindow.open(self.map, marker);
 
-        var listItem = $('#list li'); 
+        var listItem = $('#list li');
+        var selector = '.places-list li';
 
         function markSelection() {
-          listItem.siblings('li').css("fontWeight", "normal");
-          listItem.css("fontWeight", "bold");
-        }
-
-        for (i = 0, len = listItem.length; i < len; i++){
-          listItem[i].onclick = markSelection;
+          $(selector).on('click', function() {
+            $(selector).removeClass('active');
+              $(this).addClass('active');
+              $('.active').css("fontWeight", "bold");
+              $('.active').siblings('li').css("fontWeight", "normal");
+          });
         };
 
         markSelection();

@@ -13,3 +13,5 @@ http://learn.jquery.com/using-jquery-core/document-ready/
 http://stackoverflow.com/questions/1208467/how-to-add-items-to-a-unordered-list-ul-using-jquery
 
 http://stackoverflow.com/questions/21213790/onclick-bold-selection
+
+http://stackoverflow.com/questions/21111946/how-to-add-class-active-on-specific-li-on-user-click-with-jquery
