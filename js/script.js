@@ -107,56 +107,13 @@ function AppViewModel() {
 
       markers.push(marker);
 
-      //create list view for markers
-      $(document).ready( function () {
-        $('#list').append('<li>' + marker.title + '</li>');
-        $('#list li:last-of-type').click(function() {
-        infowindow.open(self.map, marker);
-
-        var listItem = $('#list li');
-        var selector = '.places-list li';
-
-        function markSelection() {
-          $(selector).on('click', function() {
-            $(selector).removeClass('active');
-              $(this).addClass('active');
-              $('.active').css("fontWeight", "bold");
-              $('.active').siblings('li').css("fontWeight", "normal");
-          });
-        };
-
-        markSelection();
-        });
-      });
-
       //create infowindows
       var infowindow = new google.maps.InfoWindow({
         position: latLng,
         content: contentString
       });
 
-      
-      //function when clicking markers
-      google.maps.event.addListener(marker, 'click', function() {
-
-        function toggleBounce() {
-          if (marker.getAnimation() != null) {
-          marker.setAnimation(null);
-          }
-          else {
-          marker.setAnimation(google.maps.Animation.BOUNCE);
-            function timeout() {
-              marker.setAnimation(null);
-            }
-            setTimeout(timeout, 2000);
-          }
-        };
-
-        toggleBounce();
-        
-        infowindow.setContent(this.content);
-        infowindow.open(self.map,marker);
-
+              //attach wikipedia elements to infowindows
         $(document).ready(function() {
           var $wikiElem = $('#wikipedia-links');
 
@@ -207,7 +164,60 @@ function AppViewModel() {
           pano.setVisible(false);
           pano = null;
         });
+
+      //create list view for markers
+      function appendList() {
+        $('#list').append('<li>' + marker.title + '</li>');
+         };
+
+      appendList();
+
+      function toggleBounce() {
+        if (marker.getAnimation() != null) {
+          marker.setAnimation(null);
+          }
+        else {
+          marker.setAnimation(google.maps.Animation.BOUNCE);
+          function timeout() {
+              marker.setAnimation(null);
+            }
+            setTimeout(timeout, 2000);
+          }
+        };
+      
+      //function when clicking markers & list items
+      google.maps.event.addListener(marker, 'click', function() {
+
+        infowindow.setContent(this.content);
+        infowindow.open(self.map,marker);
+        toggleBounce();
+
+ 
+
       });
+
+    
+        var listItem = $('#list li');
+        var selector = '.places-list li';
+
+        //when clicking list
+        function markSelection() {
+
+          $('#list li:last-of-type').click(function() {
+          infowindow.open(self.map, marker);
+          toggleBounce();
+         });
+
+          $(selector).on('click', function() {
+            $(selector).removeClass('active');
+              $(this).addClass('active');
+              $('.active').css("fontWeight", "bold");
+              $('.active').siblings('li').css("fontWeight", "normal");
+            });
+        };
+
+        markSelection();
+
     }
 };  
 
