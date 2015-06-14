@@ -137,8 +137,8 @@ function AppViewModel() {
           pano = null;
         });
 
-                                          //attach wikipedia elements to infowindows
-        function wikiLinks() {
+      //attach wikipedia elements to infowindows
+      function wikiLinks() {
           var $wikiElem = $('#wikipedia-links');
 
           var wikiURL = 'http://en.wikipedia.org/w/api.php?action=opensearch&format=json&search=' + data[i].search + '&format=json';
@@ -184,34 +184,44 @@ function AppViewModel() {
             setTimeout(timeout, 2000);
           }
         };
+
+      var listItem = $('#list li');
+      var selector = '.places-list li';  
       
+      function boldSelection () {
+        $(selector).on('click', function() {
+        $(selector).removeClass('active');
+          $(this).addClass('active');
+          $('.active').css("fontWeight", "bold");
+          $('.active').siblings('li').css("fontWeight", "normal");
+          });
+
+        $(marker).on('click', function() {
+        $(selector).removeClass('active');
+          $(this).addClass('active');
+          $('.active').css("fontWeight", "bold");
+          $('.active').siblings('li').css("fontWeight", "normal");
+          });
+      };
+
+
       //function when clicking markers
       google.maps.event.addListener(marker, 'click', function() {
-
         infowindow.setContent(this.content);
         infowindow.open(self.map,marker);
         toggleBounce();
         wikiLinks();
+        boldSelection();
       });
-
-        var listItem = $('#list li');
-        var selector = '.places-list li';
 
         //when clicking list
         function markSelection() {
-
           $('#list li:last-of-type').click(function() {
           infowindow.open(self.map, marker);
           toggleBounce();
           wikiLinks();
+          boldSelection();
          });
-
-          $(selector).on('click', function() {
-            $(selector).removeClass('active');
-              $(this).addClass('active');
-              $('.active').css("fontWeight", "bold");
-              $('.active').siblings('li').css("fontWeight", "normal");
-            });
         };
         markSelection();
     }
