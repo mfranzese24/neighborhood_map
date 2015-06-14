@@ -112,9 +112,33 @@ function AppViewModel() {
         position: latLng,
         content: contentString
       });
+        
+      //add google streetview to the infowindow
+      var pano = null;
+      google.maps.event.addListener(infowindow, 'domready', function () {
+          if (pano != null) {
+            pano.unbind("position");
+            pano.setVisible(false);
+          }
+          pano = new google.maps.StreetViewPanorama(document.getElementById("content"), {
+            navigationControl: true,
+            navigationControlOptions: {style: google.maps.NavigationControlStyle.ANDROID },
+            enableCloseButton: false,
+            addressControl: false,
+            linksControl: false
+          });
+          pano.bindTo("position", marker);
+          pano.setVisible(true);
+        });
 
-              //attach wikipedia elements to infowindows
-        $(document).ready(function() {
+        google.maps.event.addListener(infowindow, 'closeclick', function () {
+          pano.unbind("position");
+          pano.setVisible(false);
+          pano = null;
+        });
+
+                                          //attach wikipedia elements to infowindows
+        function wikiLinks() {
           var $wikiElem = $('#wikipedia-links');
 
           var wikiURL = 'http://en.wikipedia.org/w/api.php?action=opensearch&format=json&search=' + data[i].search + '&format=json';
@@ -139,31 +163,7 @@ function AppViewModel() {
               clearTimeout(wikiRequestTimeout);
             }
           });
-        });
-        
-        //add google streetview to the infowindow
-        var pano = null;
-        google.maps.event.addListener(infowindow, 'domready', function () {
-          if (pano != null) {
-            pano.unbind("position");
-            pano.setVisible(false);
-          }
-          pano = new google.maps.StreetViewPanorama(document.getElementById("content"), {
-            navigationControl: true,
-            navigationControlOptions: {style: google.maps.NavigationControlStyle.ANDROID },
-            enableCloseButton: false,
-            addressControl: false,
-            linksControl: false
-          });
-          pano.bindTo("position", marker);
-          pano.setVisible(true);
-        });
-
-        google.maps.event.addListener(infowindow, 'closeclick', function () {
-          pano.unbind("position");
-          pano.setVisible(false);
-          pano = null;
-        });
+        };  
 
       //create list view for markers
       function appendList() {
@@ -185,18 +185,15 @@ function AppViewModel() {
           }
         };
       
-      //function when clicking markers & list items
+      //function when clicking markers
       google.maps.event.addListener(marker, 'click', function() {
 
         infowindow.setContent(this.content);
         infowindow.open(self.map,marker);
         toggleBounce();
-
- 
-
+        wikiLinks();
       });
 
-    
         var listItem = $('#list li');
         var selector = '.places-list li';
 
@@ -206,6 +203,7 @@ function AppViewModel() {
           $('#list li:last-of-type').click(function() {
           infowindow.open(self.map, marker);
           toggleBounce();
+          wikiLinks();
          });
 
           $(selector).on('click', function() {
@@ -215,16 +213,11 @@ function AppViewModel() {
               $('.active').siblings('li').css("fontWeight", "normal");
             });
         };
-
         markSelection();
-
     }
 };  
-
   //run function to create markers & associated behaviors
-  self.initMarkers(this.placeList());
-  
+  self.initMarkers(this.placeList()); 
 }
-
 
 ko.applyBindings(new AppViewModel());
