@@ -6,56 +6,64 @@ var model = [
     "lat": 40.925594,
     "lng": -73.033634,
     "search": "Port Jefferson Station",
-    "about": "Home Sweet Home!"
+    "about": "Home Sweet Home!",
+    "show": ko.observable(true)
   },
   {
     "name": "My Boyfriend's House",
     "lat": 40.940590, 
     "lng": -73.040945,
     "search": "Port Jefferson",
-    "about": "Home of the Great Jon Boswell! OK - so I only WISH he was my boyfriend."
+    "about": "Home of the Great Jon Boswell! OK - so I only WISH he was my boyfriend.",
+    "show": ko.observable(true)
   },
   {
     "name": "Cedar Beach",
     "lat": 40.964677, 
     "lng": -73.027536,
     "search": "Cedar Beach (Brookhaven, New York)",
-    "about": "A Taste of the North Shore"
+    "about": "A Taste of the North Shore",
+    "show": ko.observable(true)
   },
   {
     "name": "Rocco's Pizza",
     "lat": 40.931772, 
     "lng": -73.033817,
     "search": "Mount Sinai, New York",
-    "about": "Yum Yum Yum in my Tum Tum Tum"
+    "about": "Yum Yum Yum in my Tum Tum Tum",
+    "show": ko.observable(true)
   },
   {
     "name": "Port Jefferson & Bridgeport Ferry",
     "lat": 40.948180,
     "lng": -73.070658,
     "search": "Port Jefferson-Bridgeport Ferry",
-    "about": "From Long Island to Connecticut"
+    "about": "From Long Island to Connecticut",
+    "show": ko.observable(true)
   },
   {
     "name": "Stony Brook University Hospital",
     "lat": 40.910588,
     "lng": -73.114766,
     "search": "Stony Brook University Hospital",
-    "about": "SUNY Stony Brook - a Premier Medical School and Hospital"
+    "about": "SUNY Stony Brook - a Premier Medical School and Hospital",
+    "show": ko.observable(true)
   },
   {
     "name": "Clinton Avenue Elementary",
     "lat": 40.905702,
     "lng": -73.040853,
     "search": "Comsewogue",
-    "about": "Brianna's School"
+    "about": "Brianna's School",
+    "show": ko.observable(true)
   },
   {
     "name": "Heritage Park",
     "lat": 40.933792,
     "lng": -73.009474,
     "search": "Mount Sinai, New York",
-    "about": "For a beautiful walk or to play on the playground"
+    "about": "For a beautiful walk or to play on the playground",
+    "show": ko.observable(true)
   }
 ];
 
@@ -77,11 +85,7 @@ function AppViewModel() {
       }
       );
 
-  //iterates through each location to create markers
-
-
   var markers = ko.observableArray();
-
 
   self.initMarkers = function(data) {
 
@@ -98,13 +102,13 @@ function AppViewModel() {
       var contentString = '<div class = "title"><h3>' + data[i].name + '</h3></div>' + '<div class = "about">' + data[i].about  + '</div><div id="content" style="width:400px;height:250px;"></div><div class="wikipedia-container" style="width: 400px; height: 250px;"><h3 id="wikipedia-header">Wikipedia Links</h3><ul id="wikipedia-links"></ul></div></div>';
 
       //create markers
+
       var marker = new google.maps.Marker({
           position: latLng,
           map: self.map,
           title: data[i].name,
           content: contentString
       });
-
       markers.push(marker);
 
       //create infowindows
@@ -165,12 +169,6 @@ function AppViewModel() {
           });
         };  
 
-      //create list view for markers
-      function appendList() {
-        $('#list').append('<li>' + marker.title + '</li>');
-         };
-
-      appendList();
 
       function toggleBounce() {
         if (marker.getAnimation() != null) {
@@ -192,7 +190,7 @@ function AppViewModel() {
         $(selector).on('click', function() {
         $(selector).removeClass('active');
           $(this).addClass('active');
-          $('.active').css("fontWeight", "bold");
+          $('.active').css("fontWeight", "bold", "fontColor", "red");
           $('.active').siblings('li').css("fontWeight", "normal");
           });
 
@@ -216,7 +214,7 @@ function AppViewModel() {
 
         //when clicking list
         function markSelection() {
-          $('#list li:last-of-type').click(function() {
+          $('#list:last-of-type').click(function() {
           infowindow.open(self.map, marker);
           toggleBounce();
           wikiLinks();
@@ -224,10 +222,13 @@ function AppViewModel() {
          });
         };
         markSelection();
-    }
+  }
+
 };  
   //run function to create markers & associated behaviors
   self.initMarkers(this.placeList()); 
+
 }
+
 
 ko.applyBindings(new AppViewModel());

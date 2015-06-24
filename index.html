@@ -17,11 +17,12 @@
 
 		<div class="col-md-3" id="list-view">
 			<form id="search" class="search-container">
-  				<input type="text" id="search" value="">
+  				<input class="search-field">
   				<button id="search-btn">Search</button>
   			</form>
 			<h3 id="list-view-header">Places</h3>
-			<ul id="list" class="places-list">
+			<ul data-bind="foreach: {data: placeList, as: 'place'}" id="list" class="places-list">
+				<li data-bind="visible: show, text: name" id="item"></li>
 		</div>
 	</div>
 
