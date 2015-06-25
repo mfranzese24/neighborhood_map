@@ -16,9 +16,16 @@
 		<div class="col-md-9" id="map-canvas"></div>
 
 		<div class="col-md-3" id="list-view">
-			<form id="search" class="search-container">
-  				<input class="search-field">
-  				<button id="search-btn">Search</button>
+			<form data-bind="submit: search" id="search" class="search-container">
+				<!--Syncs search query, clears on click, adds placehoder. Disabled autocomplete-->
+  				<input data-bind="click: clearQuery, textInput: query,
+  											attr: { placeholder: 'Search for a Place; Ex: 'Cedar Beach', 
+  											class: 'ui-autocomplete-input,
+  											type: 'search',
+  											autocomplete: 'off'}"
+  											class="search-field">
+  				<!--Search button-->							
+  				<button data-bind="attr: {class: 'search-button', type: 'submit'}">Search</button>
   			</form>
 			<h3 id="list-view-header">Places</h3>
 			<ul data-bind="foreach: {data: placeList, as: 'place'}" id="list" class="places-list">
